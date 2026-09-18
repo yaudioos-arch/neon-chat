@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101014">
+  <meta name="description" content="Neon Chat — your people, your frequency. Real-time conversations with a creative edge.">
+  <title>NEON / Your people. Your frequency.</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/socket.io/socket.io.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
+  <section id="auth-view" class="auth-view">
+    <div class="auth-story">
+      <a class="wordmark" href="/" aria-label="Neon Chat home"><span class="brand-icon">n<span>↗</span></span> NEON<span class="wordmark-dot">®</span></a>
+      <div class="story-content">
+        <p class="eyebrow"><span class="status-dot"></span> LESS SCROLLING. MORE CONNECTING.</p>
+        <h1>Your people.<br>Your <span class="gradient-text">frequency.</span></h1>
+        <p class="story-description">Big ideas. Late-night tangents. The kind of conversations that just hit different.</p>
+        <div class="orbit-art" aria-hidden="true"><div class="orbit-ring ring-one"></div><div class="orbit-ring ring-two"></div><div class="orbit-core">n<span>↗</span></div><span class="orbit-label label-one">✳ find your orbit</span><span class="orbit-label label-two">stay a little longer ↗</span><span class="orbit-spark">✦</span></div>
+      </div>
+      <div class="story-footer"><span>A little less ordinary.</span><span>EST. 2026 ↗</span></div>
+    </div>
+    <main class="auth-panel">
+      <div class="auth-card">
+        <span class="pill">YOUR NEXT GREAT CONVERSATION STARTS HERE</span>
+        <h2 id="auth-title">Welcome to the inner circle.</h2>
+        <p id="auth-subtitle" class="muted">Pick a username. Find your people. Make some noise.</p>
+        <div class="auth-tabs" aria-label="Account action"><button id="register-tab" type="button" class="active" aria-pressed="true">Create account</button><button id="login-tab" type="button" aria-pressed="false">Sign in</button></div>
+        <form id="auth-form">
+          <label for="username">YOUR USERNAME</label>
+          <div class="input-wrap"><span aria-hidden="true">@</span><input id="username" name="username" autocomplete="username" placeholder="your_alter_ego" pattern="[a-zA-Z0-9_]{3,20}" minlength="3" maxlength="20" required aria-describedby="username-help"></div>
+          <p id="username-help" class="field-help">3–20 letters, numbers, or underscores.</p>
+          <label for="password">PASSWORD</label>
+          <div class="input-wrap"><span aria-hidden="true">◇</span><input id="password" name="password" type="password" autocomplete="new-password" placeholder="Make it a good one" minlength="10" maxlength="128" required><button id="password-toggle" type="button" class="text-button" aria-label="Show password">Show</button></div>
+          <p class="field-help">At least 10 characters. Keep it just for you.</p>
+          <p id="auth-error" class="form-error" role="alert"></p>
+          <button id="auth-submit" class="primary-button" type="submit">Find my frequency <span aria-hidden="true">↗</span></button>
+        </form>
+        <div class="auth-note"><span aria-hidden="true">◈</span><p>No followers. No algorithm.<br>Just you and the conversation.</p></div>
+        <p class="privacy-note">Channel messages are visible to all signed-in members. Never share passwords or sensitive information in chat.</p>
+      </div>
+      <footer class="auth-panel-footer">BUILT FOR REAL CONNECTIONS <span>✳</span></footer>
+    </main>
+  </section>
+
+  <main id="chat-view" class="chat-shell" hidden>
+    <aside class="sidebar" id="sidebar" aria-label="Channels and account">
+      <a class="wordmark" href="/" aria-label="Neon Chat home"><span class="brand-icon">n<span>↗</span></span> NEON<span class="wordmark-dot">®</span></a>
+      <div class="workspace-card"><span class="workspace-icon">✳</span><div><strong>The Neon Space</strong><small>A good place to be.</small></div><span class="workspace-chevron">⌄</span></div>
+      <div class="sidebar-label">YOUR CHANNELS <span>03</span></div>
+      <nav id="room-list" aria-label="Chat channels"></nav>
+      <div class="sidebar-bottom"><div class="vibe-card"><span>✦</span><h3>Good energy only.</h3><p>Be curious. Be kind.<br>Be unapologetically you.</p><small>THAT'S THE WHOLE VIBE ↗</small></div>
+      <div class="account-card"><span id="my-avatar" class="avatar"></span><div class="account-details"><strong id="my-username"></strong><small><span class="status-dot"></span> In my element</small></div><button id="logout" class="icon-button" type="button" aria-label="Sign out" title="Sign out">↪</button></div></div>
+    </aside>
+    <section class="conversation" aria-label="Conversation">
+      <header class="conversation-header"><button id="menu-toggle" class="icon-button mobile-menu" type="button" aria-label="Toggle channels" aria-expanded="false" aria-controls="sidebar">☰</button><span id="room-symbol" class="channel-symbol">✳</span><div class="header-title"><h1 id="room-title">the-lobby</h1><p id="room-description">Good people. Great conversations. Zero noise.</p></div><span id="connection-status" class="connection-pill">Connecting…</span></header>
+      <div class="conversation-tools"><span><span class="live-dot"></span> THE CONVERSATION IS YOURS</span><label class="message-search"><span aria-hidden="true">⌕</span><input id="message-search" type="search" placeholder="Find a message" aria-label="Search loaded messages"></label></div>
+      <div id="message-scroll" class="message-scroll">
+        <div class="channel-intro"><span id="intro-symbol">✳</span><p class="eyebrow">YOU'RE IN GOOD COMPANY</p><h2>Welcome to <span id="intro-name">the-lobby</span><span class="accent">.</span></h2><p id="intro-description">Drop a hello, share a thought, start something good.</p><div class="intro-rule"><span>THIS IS WHERE IT BEGINS</span></div></div>
+        <div id="messages" role="log" aria-label="Chat messages" aria-live="polite" aria-relevant="additions"></div>
+        <p id="empty-state" class="empty-state">The room is quiet. Be the first to say something ✦</p>
+      </div>
+      <div class="composer-area"><div id="typing-status" class="typing-status" aria-live="polite"></div><form id="message-form" class="composer"><label for="message-input" class="sr-only">Message this channel</label><textarea id="message-input" rows="1" maxlength="2000" placeholder="Say something good…" disabled></textarea><div class="composer-bottom"><div class="composer-actions"><button id="emoji-button" type="button" class="icon-button" aria-label="Add an emoji" aria-expanded="false" aria-controls="emoji-picker">☺</button><span class="composer-hint">A little personality goes a long way.</span></div><div class="send-group"><span id="character-count">0 / 2000</span><button id="send-button" type="submit" class="send-button" disabled>Send <span aria-hidden="true">↗</span></button></div></div><div id="emoji-picker" class="emoji-picker" hidden aria-label="Choose an emoji"><button type="button">✨</button><button type="button">🔥</button><button type="button">💜</button><button type="button">👋</button><button type="button">😂</button><button type="button">🚀</button><button type="button">🙌</button><button type="button">💡</button></div></form><div class="composer-footnote"><span><kbd>Enter</kbd> to send · <kbd>Shift + Enter</kbd> for a new line</span><span>MAKE IT HUMAN ✳</span></div></div>
+    </section>
+    <aside class="people-panel" aria-label="Channel members"><div class="people-heading"><h2>In the room</h2><span id="online-count">0</span></div><p class="muted small">Same space. Different frequencies.</p><div id="people-list"></div><div class="room-note"><span>☄</span><p>One hello can<br>change your whole day.</p><small>GO ON. SAY IT.</small></div><div class="channel-details"><span class="sidebar-label">THE FINE PRINT</span><p>Public channels · Saved history<br>Latest 100 messages loaded<br>No end-to-end encryption</p></div></aside>
+  </main>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <noscript><p class="noscript">Neon Chat needs JavaScript enabled to sign in and send messages.</p></noscript>
+</body>
+</html>
