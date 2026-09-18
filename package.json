@@ -1,0 +1,16 @@
+{
+  "name": "neon-chat",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24 <25" },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node --check server.js && node --check public/app.js && node --check test/server.test.js",
+    "lint": "eslint --no-config-lookup --rule 'no-unused-vars:error' --rule 'no-unreachable:error' server.js public/app.js test/server.test.js",
+    "test": "node --test"
+  },
+  "dependencies": { "express": "4.21.2", "socket.io": "4.8.1" },
+  "devDependencies": { "eslint": "9.22.0", "socket.io-client": "4.8.1" }
+}
